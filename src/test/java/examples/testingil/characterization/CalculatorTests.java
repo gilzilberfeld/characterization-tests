@@ -34,23 +34,27 @@ public class CalculatorTests {
 	@Test
 	public void GetWithApprovals() throws Exception
 	{
+		mockMvc.perform(
+				post("/calculator/press")
+				.param("key", "1"));
+				
 		MvcResult result = mockMvc.perform(get("/calculator/display"))
 		.andExpect(status().isOk())
 		.andReturn();
 		
-		//Approvals.verify(result.getResponse().getContentAsString());
+		Approvals.verify(result.getResponse().getContentAsString());
 
 	}
 	
 	
-	//@Disabled
+	@Disabled
 	@Test
 	public void OperationsWithCalculator() throws Exception	{
 		reset();
 		pressSequence("1+2=");
 		reset();
 		pressSequence("1+C");
-		//Approvals.verify(log.toString());
+		Approvals.verify(log.toString());
 	}
 
 	@BeforeEach
@@ -60,21 +64,23 @@ public class CalculatorTests {
 	}
 	
 	private void pressSequence(String sequence) throws Exception {
-		sequence.chars().mapToObj(i -> (char) i).forEach(c -> press (c));
+		sequence.chars().mapToObj(i -> 
+			(char) i).forEach(c -> press (c));
 	}
-
-
 
 	private void press(char key) {
 		String result;
 		try {
 			mockMvc.perform(
-					post("/calculator/press").param("key", Character.toString(key)));
-		MvcResult response = mockMvc.perform(get("/calculator/display"))
+					post("/calculator/press")
+					.param("key", Character.toString(key)));
+			
+			MvcResult response = mockMvc.perform(
+					get("/calculator/display"))
 				.andExpect(status().isOk())
 				.andReturn();
 		
-		 	result = response.getResponse().getContentAsString();
+		 		result = response.getResponse().getContentAsString();
 		} catch (Exception e) {
 			result = "Error";
 		}
