@@ -27,7 +27,6 @@ public class CalculatorTests {
 	@Autowired
 	private Logger log;
 	
-	//@Disabled
 	@Test
 	public void GetWithApprovals() throws Exception
 	{
@@ -40,8 +39,7 @@ public class CalculatorTests {
 		.andReturn();
 		
 		String responseBody = result.getResponse().getContentAsString();
-		//Approvals.verify(responseBody);
-
+		
 	}
 	
 	
@@ -85,6 +83,6 @@ public class CalculatorTests {
 	private void reset() throws Exception {
 		mockMvc.perform(
 				post("/calculator/press").param("key", "C"));
-		log.append("Reset\n");
+		log.append("Reset");
 	}
 }

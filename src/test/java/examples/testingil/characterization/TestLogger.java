@@ -6,7 +6,7 @@ public class TestLogger implements Logger {
 	
 	@Override
 	public void append(char key, String display) {
-		append("Pressed " + key + ", Display shows: " + display + "\n");
+		append("Pressed " + key + ", Display shows: " + display);
 	}
 
 	@Override
