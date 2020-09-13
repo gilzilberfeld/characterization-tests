@@ -15,6 +15,9 @@ public class Calculator {
 	
 	OperationType lastOperation;
 
+	@Autowired
+	private Logger logger;
+	
 	@Autowired 
 	public UserRepository userRepository;
 	
@@ -26,7 +29,7 @@ public class Calculator {
 				lastOperation = OperationType.Plus;	
 				lastArgument =  Integer.parseInt(display);
 				newArgument = true;
-			} else {
+				} else {
 				if (key.equals("/")) {
 					lastOperation = OperationType.Div;	
 					lastArgument =  Integer.parseInt(display);

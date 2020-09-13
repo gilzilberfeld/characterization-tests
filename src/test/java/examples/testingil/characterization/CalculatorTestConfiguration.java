@@ -8,12 +8,19 @@ import org.springframework.context.annotation.Import;
 @Import(JpaConfiguration.class)
 public class CalculatorTestConfiguration {
 	
-	@Bean CalculatorController controller() {
+	@Bean 
+	CalculatorController controller() {
 		return new CalculatorController();
 	}
 	
-	@Bean Calculator calculator() {
+	@Bean 
+	Calculator calculator() {
 		return new Calculator();
+	}
+	
+	@Bean 
+	Logger logger() {
+		return new TestLogger();
 	}
 }
 

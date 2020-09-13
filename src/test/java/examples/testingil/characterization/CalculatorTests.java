@@ -6,13 +6,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.approvaltests.Approvals;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,7 +24,8 @@ public class CalculatorTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private TestLogger log;
+	@Autowired
+	private Logger log;
 	
 	//@Disabled
 	@Test
@@ -51,12 +48,11 @@ public class CalculatorTests {
 //	@Disabled
 	@Test
 	public void OperationsWithCalculator() throws Exception	{
-		log = new TestLogger();
 		reset();
 		pressSequence("1+2=");
 		reset();
 		pressSequence("1+C");
-		Approvals.verify(log.toString());
+		Approvals.verify(log.getAll());
 	}
 
 	private void pressSequence(String sequence) throws Exception {

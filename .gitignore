@@ -16,6 +16,9 @@ local.properties
 .loadpath
 .recommenders
 
+*.approved.txt
+*.received.txt
+
 # External tool builders
 .externalToolBuilders/
 
