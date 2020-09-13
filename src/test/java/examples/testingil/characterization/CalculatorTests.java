@@ -28,7 +28,7 @@ public class CalculatorTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private StringBuilder log;
+	private TestLogger log;
 	
 	//@Disabled
 	@Test
@@ -42,14 +42,16 @@ public class CalculatorTests {
 		.andExpect(status().isOk())
 		.andReturn();
 		
-		Approvals.verify(result.getResponse().getContentAsString());
+		String responseBody = result.getResponse().getContentAsString();
+		//Approvals.verify(responseBody);
 
 	}
 	
 	
-	@Disabled
+//	@Disabled
 	@Test
 	public void OperationsWithCalculator() throws Exception	{
+		log = new TestLogger();
 		reset();
 		pressSequence("1+2=");
 		reset();
@@ -57,12 +59,6 @@ public class CalculatorTests {
 		Approvals.verify(log.toString());
 	}
 
-	@BeforeEach
-	public void setup() {
-		
-		log = new StringBuilder();
-	}
-	
 	private void pressSequence(String sequence) throws Exception {
 		sequence.chars().mapToObj(i -> 
 			(char) i).forEach(c -> press (c));
@@ -85,17 +81,14 @@ public class CalculatorTests {
 			result = "Error";
 		}
 		
-		log.append(addPressResult(key, result));
+		log.append(key, result);
 	}
 
-	private String addPressResult(char key, String display) {
-		return "Pressed " + key + ", Display shows: " + display + "\n";
-	}
+	
 
 	private void reset() throws Exception {
 		mockMvc.perform(
 				post("/calculator/press").param("key", "C"));
 		log.append("Reset\n");
-		
 	}
 }
