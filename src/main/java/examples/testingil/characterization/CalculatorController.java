@@ -14,7 +14,8 @@ public class CalculatorController {
 	@Autowired private Calculator calculator;
 	
 	@PostMapping(value ="/press")
-	public ResponseEntity<?> press(@RequestParam(value = "key") String key) {
+	public ResponseEntity<?> press(
+			@RequestParam(value = "key") String key) {
 		calculator.press(key);
 		return ResponseEntity.ok(null);
 	}
@@ -22,7 +23,8 @@ public class CalculatorController {
 	@GetMapping(value = "/display") 
 	public ResponseEntity<String> getDisplay() {
 		
-		return new ResponseEntity<String>(calculator.getDisplay(), HttpStatus.OK);
+		return new ResponseEntity<String>(calculator.getDisplay(), 
+				HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/restore")

@@ -1,11 +1,10 @@
 package examples.testingil.characterization;
-
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.approvaltests.Approvals;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 
 @ContextConfiguration(classes = {CalculatorTestConfiguration.class })
 @SpringBootTest
@@ -26,9 +24,9 @@ public class CalculatorTests {
 	private MockMvc mockMvc;
 	@Autowired
 	private Logger log;
-	
+
 	@Test
-	public void GetWithApprovals() throws Exception
+	public void CheckDisplayTest() throws Exception
 	{
 		mockMvc.perform(
 				post("/calculator/press")
@@ -39,13 +37,14 @@ public class CalculatorTests {
 		.andReturn();
 		
 		String responseBody = result.getResponse().getContentAsString();
+		Approvals.verify(responseBody);
 		
 	}
 	
 	
-//	@Disabled
+	@Disabled
 	@Test
-	public void OperationsWithCalculator() throws Exception	{
+	public void ComplexOperationsTest() throws Exception	{
 		reset();
 		pressSequence("1+2=");
 		reset();
