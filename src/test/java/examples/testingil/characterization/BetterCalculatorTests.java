@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.approvaltests.Approvals;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,38 +19,23 @@ import org.springframework.test.web.servlet.MvcResult;
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-public class CalculatorTests {
+public class BetterCalculatorTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	@Autowired
-	private Logger log;
+	private TestLogger logger;
 
-	@Test
-	public void CheckDisplayTest() throws Exception
-	{
-		mockMvc.perform(
-				post("/calculator/press")
-				.param("key", "1"));
-				
-		MvcResult result = mockMvc.perform(get("/calculator/display"))
-		.andExpect(status().isOk())
-		.andReturn();
-		
-		String responseBody = result.getResponse().getContentAsString();
-		Approvals.verify(responseBody);
-		
+	@BeforeEach
+	void setup() {
+		logger = new TestLogger();
 	}
 	
-	
-	@Disabled
+	//@Disabled
 	@Test
 	public void ComplexOperationsTest() throws Exception	{
 		reset();
-		pressSequence("1+2=");
-		reset();
-		pressSequence("1+C");
-		Approvals.verify(log.getAll());
+		pressSequence("1+2");
+		Approvals.verify(logger.getAll());
 	}
 
 	private void pressSequence(String sequence) throws Exception {
@@ -74,7 +60,7 @@ public class CalculatorTests {
 			result = "Error";
 		}
 		
-		log.append(key, result);
+		logger.append(key, result);
 	}
 
 	
@@ -82,6 +68,6 @@ public class CalculatorTests {
 	private void reset() throws Exception {
 		mockMvc.perform(
 				post("/calculator/press").param("key", "C"));
-		log.append("Reset");
+		logger.append("Reset");
 	}
 }

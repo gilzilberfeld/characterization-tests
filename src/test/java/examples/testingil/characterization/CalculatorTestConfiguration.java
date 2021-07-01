@@ -2,10 +2,8 @@ package examples.testingil.characterization;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(JpaConfiguration.class)
 public class CalculatorTestConfiguration {
 	
 	@Bean 
@@ -18,9 +16,5 @@ public class CalculatorTestConfiguration {
 		return new Calculator();
 	}
 	
-	@Bean 
-	Logger logger() {
-		return new TestLogger();
-	}
 }
 

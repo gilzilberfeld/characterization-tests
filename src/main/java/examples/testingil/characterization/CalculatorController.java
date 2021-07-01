@@ -22,19 +22,7 @@ public class CalculatorController {
 	
 	@GetMapping(value = "/display") 
 	public ResponseEntity<String> getDisplay() {
-		
 		return new ResponseEntity<String>(calculator.getDisplay(), 
 				HttpStatus.OK);
-	}
-	
-	@PostMapping(value = "/restore")
-	public ResponseEntity<?> getStoredValueForUser(@RequestParam(value = "user") String user) {
-		calculator.getLastValueFor(user);
-		return ResponseEntity.ok(null);
-	}
-	
-	@GetMapping(value = "/currentUser")
-	public String getCurrentUser() {
-		return calculator.getCurrentUser();
 	}
 }

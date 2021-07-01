@@ -15,12 +15,6 @@ public class Calculator {
 	
 	OperationType lastOperation;
 
-	@Autowired
-	private Logger logger;
-	
-	@Autowired 
-	public UserRepository userRepository;
-	
 	public void press(String key) {
 		if (key.equals("C"))
 			display = "";
@@ -67,30 +61,4 @@ public class Calculator {
 			return "E";
 		return display;
 	}
-
-	public void getLastValueFor(String userName) {
-		User user = getUserByName(userName);
-		if (user != null) {
-			display = user.getMemory().toString();
-			shouldReset = false;
-		}
-	}
-
-	private User getUserByName(String userName) {
-		User criterion = new User();
-		criterion.setName(userName);
-		criterion.setMemory(null);
-		
-		Example<User> filter = Example.of(criterion);
-		Optional<User> user = userRepository.findOne(filter);
-		if (user.isPresent())
-			return user.get();
-		else
-			return null;
-	}
-
-	public String getCurrentUser() {
-		return "Gil";
-	}
-
 }
